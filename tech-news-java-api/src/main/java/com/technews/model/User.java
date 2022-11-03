@@ -3,6 +3,7 @@ package com.technews.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.xml.stream.events.Comment;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
