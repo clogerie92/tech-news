@@ -24,42 +24,42 @@ public class PostController {
 
     @Autowired
     UserRepository userRepository;
-
+    // GET request to /api/posts
     @GetMapping("/api/posts")
     public List<Post> getAllPosts() {
+        // return a list of all posts
         List<Post> postList = repository.findAll();
         for (Post p : postList) {
             p.setVoteCount(voteRepository.countVotesByPostId(p.getId()));
         }
         return postList;
     }
-
-
+    // GET request to /api/posts/{id} --> get single post
     @GetMapping("/api/posts/{id}")
+    // input id into request URL
     public Post getPost(@PathVariable Integer id) {
         Post returnPost = repository.getById(id);
         returnPost.setVoteCount(voteRepository.countVotesByPostId(returnPost.getId()));
 
         return returnPost;
     }
-
-
+    // POST request to /api/posts
     @PostMapping("/api/posts")
     @ResponseStatus(HttpStatus.CREATED)
+    // create a post
     public Post addPost(@RequestBody Post post) {
         repository.save(post);
         return post;
     }
-
-
+    // PUT request to /api/posts/{id} --> update single post
     @PutMapping("/api/posts/{id}")
+    // input id into request URL
     public Post updatePost(@PathVariable int id, @RequestBody Post post) {
         Post tempPost = repository.getById(id);
         tempPost.setTitle(post.getTitle());
         return repository.save(tempPost);
     }
-
-
+    // PUT request to /api/posts/upvote
     @PutMapping("/api/posts/upvote")
     public String addVote(@RequestBody Vote vote, HttpServletRequest request) {
         String returnValue = "";
@@ -82,7 +82,7 @@ public class PostController {
         return returnValue;
     }
 
-
+    // DELETE request to /api/posts/{id} --> delete single post
     @DeleteMapping("/api/posts/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePost(@PathVariable int id) {
